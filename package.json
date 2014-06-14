@@ -1,0 +1,23 @@
+{
+  "name": "castv2-client",
+  "version": "0.0.0",
+  "description": "A Chromecast client based on the new (CASTV2) protocol",
+  "author": "thibauts",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "debug": "~1.0.1",
+    "castv2": "~0.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thibauts/node-castv2-client.git"
+  },
+  "keywords": [
+    "chromecast",
+    "castv2"
+  ]
+}
