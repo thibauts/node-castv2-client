@@ -42,8 +42,9 @@ function ondeviceup(host) {
 
     client.launch(DefaultMediaReceiver, function(err, player) {
       var media = {
-      	// Here you can plug an URL to any mp4, webm, mp3 or jpg file.
-        contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4'
+      	// Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
+        contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
+        contentType: 'video/mp4'
       };
 
       player.on('status', function(status) {
