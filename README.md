@@ -74,7 +74,7 @@ function ondeviceup(host) {
       player.load(media, { autoplay: true }, function(err, status) {
         console.log('media loaded playerState=%s', status.playerState);
 
-        // Seek to 2 minutes avec 15 seconds playing.
+        // Seek to 2 minutes after 15 seconds playing.
         setTimeout(function() {
           player.seek(2*60, function(err, status) {
             //
