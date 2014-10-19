@@ -94,3 +94,8 @@ function ondeviceup(host) {
 
 }
 ```
+
+Contributors
+------------
+
+* [xat](https://github.com/xat) (Simon Kusterer)
