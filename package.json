@@ -1,6 +1,6 @@
 {
   "name": "castv2-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Chromecast client based on the new (CASTV2) protocol",
   "author": "thibauts",
   "license": "MIT",
