@@ -101,3 +101,4 @@ Contributors
 ------------
 
 * [xat](https://github.com/xat) (Simon Kusterer)
+* [angelnu](https://github.com/angelnu) (Angel Nunez Mencias)
