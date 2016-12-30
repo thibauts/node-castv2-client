@@ -23,7 +23,7 @@ function connectToDevice(host, callback) {
       preloadTime : 3,
       startTime : 1,
       activeTrackIds : [],
-      playbackDuration: 4,
+      playbackDuration: 2,
       media: {
         contentId: "http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/BigBuckBunnyAudio.mp4",
         contentType: "audio/mpeg",
@@ -35,7 +35,7 @@ function connectToDevice(host, callback) {
       preloadTime : 3,
       startTime : 2,
       activeTrackIds : [],
-      playbackDuration: 4,
+      playbackDuration: 2,
       media: {
         contentId: "http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ElephantsDreamAudio.mp4",
         contentType: "audio/mpeg",
@@ -47,7 +47,7 @@ function connectToDevice(host, callback) {
       preloadTime : 3,
       startTime : 3,
       activeTrackIds : [],
-      playbackDuration: 4,
+      playbackDuration: 2,
       media: {
         contentId: "http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ForBiggerBlazesAudio.mp4",
         contentType: "audio/mpeg",
@@ -58,9 +58,22 @@ function connectToDevice(host, callback) {
 
   console.log('app "%s" launched, loading medias...', player.session.displayName);
 
-  player.on('status', function(status) {
+  player.on('status', gotStatus);
+
+  //Done re-ordering?
+  var isDone = false;
+
+  function gotStatus(status) {
     console.log('status broadcast = %s', util.inspect(status)," ");
-  });
+    if (
+      isDone,
+      status.idleReason == "FINISHED" &&
+      status.loadingItemId === undefined)
+    {
+      console.log("Done!");
+      callback(0);
+    }
+  }
 
   // loads multiple items
   player.queueLoad(
@@ -84,7 +97,7 @@ function connectToDevice(host, callback) {
             preloadTime : 4,
             startTime : 8,
             activeTrackIds : [],
-            playbackDuration: 4,
+            playbackDuration: 2,
             media: {
               contentId: "http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ForBiggerEscapesAudio.mp4",
               contentType: "audio/mpeg",
@@ -104,6 +117,10 @@ function connectToDevice(host, callback) {
             return;
           };
           console.log(util.inspect(status));
+          //Get status before we modify the title bellow
+          player.getStatus(function (err, status){
+            gotStatus(status);
+          });
           player.queueRemove([2],{currentItemId:0}, function(err, status) {
             console.log("Removed from QUEUE");
             if (err) {
@@ -120,7 +137,7 @@ function connectToDevice(host, callback) {
                   preloadTime : 4,
                   startTime : 4,
                   activeTrackIds : [],
-                  playbackDuration: 4,
+                  playbackDuration: 2,
                   media: {
                     contentId: "http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ForBiggerEscapesAudio.mp4",
                     contentType: "audio/mpeg",
@@ -149,8 +166,11 @@ function connectToDevice(host, callback) {
                     return;
                   };
                   console.log(util.inspect(status));
-                  console.log("Done!");
-                  callback(0); //OK
+                  //Get status - check that the title from itemId=4 has been modified
+                  player.getStatus(function (err, status){
+                    gotStatus(status);
+                    isDone = true;
+                  });
                 });
               });
             });
