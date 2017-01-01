@@ -9,8 +9,15 @@
     "castv2": "~0.1.4",
     "debug": "^2.2.0"
   },
+  "devDependencies": {
+    "array-find": "^1.0.0",
+    "dns-txt": "^2.0.2",
+    "mocha": "^3.2.0",
+    "multicast-dns": "^6.1.0",
+    "util": "^0.10.3"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
