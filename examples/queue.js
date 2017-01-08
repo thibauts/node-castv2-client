@@ -2,11 +2,11 @@ var MYPATH = "../index"; //castv2-client in production
 
 var Client                = require(MYPATH).Client;
 var DefaultMediaReceiver  = require(MYPATH).DefaultMediaReceiver;
-var scanner               = require("./lib/scanner");
+var scanner               = require('chromecast-scanner');
 
 var util                  = require("util");
 
-function connectToDevice(host, callback) {
+function ondeviceup(host, callback) {
 
   var client = new Client();
 
@@ -187,8 +187,11 @@ function connectToDevice(host, callback) {
 }
 
 function findAndConnect(callback) {
-  scanner(function(ip, name, port){
-    connectToDevice(ip, callback);
+  scanner(function(err, service) {
+    console.log('chromecast %s running on: %s',
+      service.name,
+      service.data);
+    ondeviceup(service.data, callback);
   });
 }
 
