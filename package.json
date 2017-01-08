@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "array-find": "^1.0.0",
+    "chromecast-scanner": "^0.5.0",
     "dns-txt": "^2.0.2",
     "mocha": "^3.2.0",
     "multicast-dns": "^6.1.0",
