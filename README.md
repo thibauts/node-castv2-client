@@ -24,7 +24,7 @@ $ npm install castv2-client --no-optional
 Examples
 --------
 
-###Launching a stream on the device
+### Launching a stream on the device
 
 ``` javascript
 var Client                = require('castv2-client').Client;
@@ -97,7 +97,7 @@ function ondeviceup(host) {
 }
 ```
 
-###Other examples
+### Other examples
 
 Check the examples directory.
 
