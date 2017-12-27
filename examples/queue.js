@@ -1,10 +1,10 @@
 var PlatformSender = require('../index').PlatformSender;
 var DefaultMediaReceiver = require('../index').DefaultMediaReceiver;
-var scanner = require("./lib/scanner");
+var scanner = require("chromecast-scanner");
 
 var util = require("util");
 
-function connectToDevice(host, callback) {
+function ondeviceup(host, callback) {
 
   var client = new PlatformSender();
 
@@ -159,9 +159,10 @@ function connectToDevice(host, callback) {
 }
 
 function findAndConnect(callback) {
-  scanner(function (ip, name, port) {
-    connectToDevice(ip, callback);
-  });
+  scanner(function(err, service) {
+    console.log('chromecast %s running on: %s', service.name, service.data)
+    ondeviceup(service.data, callback)
+  })
 }
 
 //module for testcase
