@@ -1,20 +1,19 @@
-var MYPATH = "../index"; //castv2-client in production
-
-var Client                = require(MYPATH).Client;
-var DefaultMediaReceiver  = require(MYPATH).DefaultMediaReceiver;
+var PlatformSender                = require('../index').PlatformSender;
+var DefaultMediaReceiver  = require('../index').DefaultMediaReceiver;
 var scanner               = require("./lib/scanner");
 
 
 function ondeviceup(host, callback) {
+  /**
+   * Client
+   * @type {PlatformSender}
+   */
+  var client = new PlatformSender();
 
-  var client = new Client();
-
-  client.connect(host, function() {
-    console.log('connected, launching app ...');
-
-    client.launch(DefaultMediaReceiver, function(err, player) {
-      var media = {
-
+  client.connect(host).then(() => {
+    console.log('connected, launching app ...')
+    client.launch(DefaultMediaReceiver).then((player) => {
+      const media = {
         // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
         contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
         contentType: 'video/mp4',
@@ -29,43 +28,45 @@ function ondeviceup(host, callback) {
             { url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg' }
           ]
         }        
-      };
-
-      player.on('status', function(status) {
-        console.log('status broadcast playerState=%s', status.playerState);
-      });
-
-      console.log('app "%s" launched, loading media %s ...', player.session.displayName, media.contentId);
-
-      player.load(media, { autoplay: true }, function(err, status) {
+      }
+      player.on('status', (status) => console.log('status broadcast playerState=%s', status.playerState))
+      console.log('app "%s" launched, loading media %s ...', player.session.displayName, media.contentId)
+      player.load(media, {
+        autoplay: true
+      }).then((status) => {
         console.log('media loaded playerState=%s', status.playerState);
-
         // Seek to 2 minutes after 5 seconds playing.
         setTimeout(function() {
-          console.log("seeking");
+          console.log('seeking')
           player.seek(2*60, function(err, status) {
             // Stop after 2 seconds playing
             setTimeout(function() {
-              console.log("Stopping");
+              console.log('Stopping')
               player.stop(function() {
-                console.log("Done!");
-                callback(0); //Done
-              });
-            }, 2000);
-              
-          });
-        }, 5000);
+                console.log('Done!')
+                callback(0)
+              })
+            }, 2000)
+          })
+        }, 5000)
+      }).catch((err) => {
+        console.error('Media load error!', err)
+        callback(err)
+      })
+    }).catch((err) => {
+      console.error('Launch error!', err)
+      callback(err)
+    })
+  }).catch((err) => {
+    console.error('Connection error!', err)
+    callback(err)
+  })
 
-      });
-
-    });
-
-  });
 
   client.on('error', function(err) {
-    console.log('Error: %s', err.message);
-    client.close();
-    callback(err); //Error
+    console.log('Error: %s', err.message)
+    client.close()
+    callback(err)
   });
 
 }
