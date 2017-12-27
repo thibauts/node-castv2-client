@@ -9,7 +9,7 @@ function ondeviceup(host, callback) {
    * @type {PlatformSender}
    */
   var client = new PlatformSender();
-
+  console.log(host)
   client.connect(host).then(() => {
     console.log('connected, launching app ...')
     client.launch(DefaultMediaReceiver).then((player) => {
@@ -74,7 +74,7 @@ function ondeviceup(host, callback) {
 function findAndConnect(callback) {
   scanner(function(err, service) {
     console.log('chromecast %s running on: %s', service.name, service.data);
-    ondeviceup(service.data, callback);
+    ondeviceup('192.168.7.94', callback);
   });
 }
 
