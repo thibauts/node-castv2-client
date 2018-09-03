@@ -35,5 +35,8 @@
   "keywords": [
     "chromecast",
     "castv2"
-  ]
+  ],
+  "jest": {
+    "testEnvironment": "node"
+  }
 }
