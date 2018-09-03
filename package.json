@@ -11,15 +11,22 @@
     "debug": "^2.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "array-find": "^1.0.0",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "^23.4.2",
     "dns-txt": "^2.0.2",
+    "eslint": "^5.5.0",
+    "eslint-config-bliss": "^2.2.0",
     "jest-cli": "^23.5.0",
     "mocha": "^3.2.0",
     "multicast-dns": "^6.1.0",
     "util": "^0.10.3"
   },
   "scripts": {
-    "test": "mocha"
+    "lint": "eslint .",
+    "test": "jest ."
   },
   "repository": {
     "type": "git",
