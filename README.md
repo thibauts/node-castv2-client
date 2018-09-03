@@ -12,13 +12,13 @@ Installation
 ------------
 
 ``` bash
-$ npm install castv2-client
+$ npm install @amilajack/castv2-client
 ```
 
 On windows, to avoid native modules dependencies, use
 
 ``` bash
-$ npm install castv2-client --no-optional
+$ npm install @amilajack/castv2-client --no-optional
 ```
 
 Examples
