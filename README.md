@@ -1,10 +1,16 @@
 castv2-client
 =============
+[![Build Status](https://travis-ci.org/amilajack/castv2-client.svg?branch=master)](https://travis-ci.org/amilajack/castv2-client)
+[![Build status](https://ci.appveyor.com/api/projects/status/at71r1stbghsgcja/branch/master?svg=true)](https://ci.appveyor.com/project/amilajack/castv2-client/branch/master)
+[![NPM version](https://badge.fury.io/js/@amilajack/castv2-client.svg)](http://badge.fury.io/js/@amilajack/castv2-client)
+[![Dependency Status](https://img.shields.io/david/amilajack/castv2-client.svg)](https://david-dm.org/amilajack/castv2-client)
+[![npm](https://img.shields.io/npm/dm/amilajack/castv2-client.svg)](https://npm-stat.com/charts.html?package=@amilajack/castv2-client) [![Greenkeeper badge](https://badges.greenkeeper.io/amilajack/castv2-client.svg)](https://greenkeeper.io/)
+
 ### A Chromecast client based on the new (CASTV2) protocol
 
 This module implements a Chromecast client over the new (CASTV2) protocol. A sender app for the `DefaultMediaReceiver` application is provided, as well as an `Application` base class and implementations of the basic protocols (see the `controllers` directory) that should make implementing custom senders a breeze.
 
-This implementation tries to stay close and true to the protocol. For details about protocol internals please see [https://github.com/thibauts/node-castv2](https://github.com/thibauts/node-castv2#protocol-description). 
+This implementation tries to stay close and true to the protocol. For details about protocol internals please see [https://github.com/thibauts/node-castv2](https://github.com/thibauts/node-castv2#protocol-description).
 
 For advanced use, like using [subtitles](https://github.com/thibauts/node-castv2-client/wiki/How-to-use-subtitles-with-the-DefaultMediaReceiver-app) with the DefaultMediaReceiver check the [wiki](https://github.com/thibauts/node-castv2-client/wiki).
 
@@ -60,11 +66,11 @@ function ondeviceup(host) {
         metadata: {
           type: 0,
           metadataType: 0,
-          title: "Big Buck Bunny", 
+          title: "Big Buck Bunny",
           images: [
             { url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg' }
           ]
-        }        
+        }
       };
 
       player.on('status', status => {
@@ -83,7 +89,7 @@ function ondeviceup(host) {
           });
         }, 15000);
       });
-    });    
+    });
   });
 
   client.on('error', err => {
