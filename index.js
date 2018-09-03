@@ -1,11 +1,10 @@
-module.exports.Controller                 = require('./lib/controllers/controller');
-module.exports.JsonController             = require('./lib/controllers/json');
-module.exports.RequestResponseController  = require('./lib/controllers/request-response');
-module.exports.ConnectionController       = require('./lib/controllers/connection');
-module.exports.HeartbeatController        = require('./lib/controllers/heartbeat');
-module.exports.ReceiverController         = require('./lib/controllers/receiver');
-module.exports.MediaController            = require('./lib/controllers/media');
-
-module.exports.Client = module.exports.PlatformSender   = require('./lib/senders/platform');
-module.exports.Application                              = require('./lib/senders/application');
-module.exports.DefaultMediaReceiver                     = require('./lib/senders/default-media-receiver');
+export const Controller = require('./lib/controllers/controller');
+export const JsonController = require('./lib/controllers/json');
+export const RequestResponseController = require('./lib/controllers/request-response');
+export const ConnectionController = require('./lib/controllers/connection');
+export const HeartbeatController = require('./lib/controllers/heartbeat');
+export const ReceiverController = require('./lib/controllers/receiver');
+export const MediaController = require('./lib/controllers/media');
+export const Client = module.exports.PlatformSender = require('./lib/senders/platform');
+export const Application = require('./lib/senders/application');
+export const DefaultMediaReceiver = require('./lib/senders/default-media-receiver');

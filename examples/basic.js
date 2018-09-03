@@ -1,20 +1,19 @@
-var MYPATH = "../index"; //castv2-client in production
-
-var Client                = require(MYPATH).Client;
-var DefaultMediaReceiver  = require(MYPATH).DefaultMediaReceiver;
-var scanner               = require("./lib/scanner");
+import scanner from 'chromecast-scanner';
+import { PlatformSender } from '../index';
+import { DefaultMediaReceiver } from '../index';
 
 
 function ondeviceup(host, callback) {
-
-  var client = new Client();
-
-  client.connect(host, function() {
+  /**
+   * Client
+   * @type {PlatformSender}
+   */
+  const client = new PlatformSender();
+  console.log(host);
+  client.connect(host).then(() => {
     console.log('connected, launching app ...');
-
-    client.launch(DefaultMediaReceiver, function(err, player) {
-      var media = {
-
+    client.launch(DefaultMediaReceiver).then((player) => {
+      const media = {
         // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
         contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
         contentType: 'video/mp4',
@@ -24,67 +23,69 @@ function ondeviceup(host, callback) {
         metadata: {
           type: 0,
           metadataType: 0,
-          title: "Big Buck Bunny", 
+          title: 'Big Buck Bunny',
           images: [
             { url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg' }
           ]
-        }        
+        }
       };
-
-      player.on('status', function(status) {
-        console.log('status broadcast playerState=%s', status.playerState);
-      });
-
+      player.on('status', status => console.log('status broadcast playerState=%s', status.playerState));
       console.log('app "%s" launched, loading media %s ...', player.session.displayName, media.contentId);
-
-      player.load(media, { autoplay: true }, function(err, status) {
+      player.load(media, {
+        autoplay: true
+      }).then((status) => {
         console.log('media loaded playerState=%s', status.playerState);
-
         // Seek to 2 minutes after 5 seconds playing.
-        setTimeout(function() {
-          console.log("seeking");
-          player.seek(2*60, function(err, status) {
+        setTimeout(() => {
+          console.log('seeking');
+          player.seek(2 * 60, (err, status) => {
             // Stop after 2 seconds playing
-            setTimeout(function() {
-              console.log("Stopping");
-              player.stop(function() {
-                console.log("Done!");
-                callback(0); //Done
+            setTimeout(() => {
+              console.log('Stopping');
+              player.stop(() => {
+                console.log('Done!');
+                callback(0);
               });
             }, 2000);
-              
           });
         }, 5000);
-
+      }).catch((err) => {
+        console.error('Media load error!', err);
+        callback(err);
       });
-
+    }).catch((err) => {
+      console.error('Launch error!', err);
+      callback(err);
     });
-
+  }).catch((err) => {
+    console.error('Connection error!', err);
+    callback(err);
   });
 
-  client.on('error', function(err) {
+
+  client.on('error', (err) => {
     console.log('Error: %s', err.message);
     client.close();
-    callback(err); //Error
+    callback(err);
   });
-
 }
 
 function findAndConnect(callback) {
-  scanner(function(ip, name, port){
-    ondeviceup(ip, callback);
+  scanner((err, service) => {
+    console.log('chromecast %s running on: %s', service.name, service.data);
+    ondeviceup('192.168.7.94', callback);
   });
 }
 
-//module for testcase
-module.exports = findAndConnect;
+// module for testcase
+export default findAndConnect;
 
-//main
-var main = function () { 
-  findAndConnect(function(rc){
+// main
+const main = () => {
+  findAndConnect((rc) => {
     process.exit(rc);
   });
-} 
-if (require.main === module) { 
-    main(); 
+};
+if (require.main === module) {
+  main();
 }

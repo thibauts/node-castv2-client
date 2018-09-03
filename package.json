@@ -1,5 +1,5 @@
 {
-  "name": "castv2-client",
+  "name": "@amilajack/castv2-client",
   "version": "1.2.0",
   "description": "A Chromecast client based on the new (CASTV2) protocol",
   "author": "thibauts",
@@ -7,17 +7,19 @@
   "main": "index.js",
   "dependencies": {
     "castv2": "~0.1.4",
+    "chromecast-scanner": "^0.5.0",
     "debug": "^2.2.0"
   },
   "devDependencies": {
     "array-find": "^1.0.0",
     "dns-txt": "^2.0.2",
+    "jest-cli": "^23.5.0",
     "mocha": "^3.2.0",
     "multicast-dns": "^6.1.0",
     "util": "^0.10.3"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
