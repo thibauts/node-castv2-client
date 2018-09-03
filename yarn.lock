@@ -674,6 +674,10 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@yarnpkg/lockfile@^1.0.0":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.0.2.tgz#833d163680a151d2441a2489f5fe5fa87ac87726"
+
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"
@@ -1328,6 +1332,10 @@ color-name@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
 
+colors@^1.1.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.3.2.tgz#2df8ff573dfbf255af562f8ce7181d6b971a359b"
+
 colour@latest:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/colour/-/colour-0.7.1.tgz#9cb169917ec5d12c0736d3e8685746df1cadf778"
@@ -1343,6 +1351,10 @@ commander@2.9.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.9.0.tgz#9c99094176e12240cb22d6c5146098400fe0f7d4"
   dependencies:
     graceful-readlink ">= 1.0.0"
+
+commander@^2.11.0:
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
 
 compare-versions@^3.1.0:
   version "3.4.0"
@@ -1571,6 +1583,10 @@ ecc-jsbn@~0.1.1:
 electron-to-chromium@^1.3.61:
   version "1.3.62"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.62.tgz#2e8e2dc070c800ec8ce23ff9dfcceb585d6f9ed8"
+
+eol@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/eol/-/eol-0.9.1.tgz#f701912f504074be35c6117a5c4ade49cd547acd"
 
 error-ex@^1.2.0, error-ex@^1.3.1:
   version "1.3.2"
@@ -3403,6 +3419,12 @@ nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
 
+nmtree@^1.0.3:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/nmtree/-/nmtree-1.0.4.tgz#695254f9979004406ff8579913dd5fb18f4dda27"
+  dependencies:
+    commander "^2.11.0"
+
 node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
@@ -4381,6 +4403,16 @@ supports-color@^5.3.0:
 symbol-tree@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
+
+synp@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/synp/-/synp-1.3.1.tgz#d07381ba26d1b9f031a97cdb427ec215c78cb6dc"
+  dependencies:
+    "@yarnpkg/lockfile" "^1.0.0"
+    colors "^1.1.2"
+    commander "^2.11.0"
+    eol "^0.9.1"
+    nmtree "^1.0.3"
 
 table@^4.0.3:
   version "4.0.3"
