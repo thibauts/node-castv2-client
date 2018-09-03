@@ -1,7 +1,5 @@
 import scanner from 'chromecast-scanner';
-import { PlatformSender } from '../';
-import { DefaultMediaReceiver } from '../';
-
+import { PlatformSender, DefaultMediaReceiver } from '../src';
 
 function ondeviceup(host, callback) {
   /**

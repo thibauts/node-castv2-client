@@ -1,7 +1,6 @@
 import scanner from 'chromecast-scanner';
 import util from 'util';
-import { PlatformSender } from '../';
-import { DefaultMediaReceiver } from '../';
+import { PlatformSender, DefaultMediaReceiver } from '../src';
 
 function ondeviceup(host, callback) {
   const client = new PlatformSender();
@@ -50,7 +49,7 @@ function ondeviceup(host, callback) {
       console.log('app "%s" launched, loading medias...', player.session.displayName);
       function gotStatus(status) {
         console.log('status broadcast = %s', util.inspect(status), ' ');
-        if (isDone, status.idleReason == 'FINISHED' && status.loadingItemId === undefined) {
+        if (isDone, status.idleReason === 'FINISHED' && status.loadingItemId === undefined) {
           console.log('Done!');
           callback(0);
         }

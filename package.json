@@ -4,7 +4,7 @@
   "description": "A Chromecast client based on the new (CASTV2) protocol",
   "author": "thibauts",
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib/index.js",
   "files": [
     "lib"
   ],
