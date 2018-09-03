@@ -16,6 +16,7 @@
     "array-find": "^1.0.0",
     "babel-core": "^7.0.0-0",
     "babel-jest": "^23.4.2",
+    "cross-env": "^5.2.0",
     "dns-txt": "^2.0.2",
     "eslint": "^5.5.0",
     "eslint-config-bliss": "^2.2.0",
@@ -26,9 +27,11 @@
     "util": "^0.10.3"
   },
   "scripts": {
+    "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib",
     "lint": "eslint .",
-    "prepublish": "synp --source-file yarn.lock && yarn test",
-    "test": "jest ."
+    "prepublish": "yarn update-pkg-lock && yarn test",
+    "test": "jest .",
+    "update-pkg-lock": "rm package-lock.json && synp --source-file yarn.lock"
   },
   "repository": {
     "type": "git",
