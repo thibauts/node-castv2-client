@@ -24,16 +24,16 @@ $ npm install castv2-client --no-optional
 Examples
 --------
 
-###Launching a stream on the device
+### Launching a stream on the device
 
-``` javascript
-var Client                = require('castv2-client').Client;
-var DefaultMediaReceiver  = require('castv2-client').DefaultMediaReceiver;
-var mdns                  = require('mdns');
+```javascript
+import { Client } from 'castv2-client';
+import { DefaultMediaReceiver } from 'castv2-client';
+import mdns from 'mdns';
 
-var browser = mdns.createBrowser(mdns.tcp('googlecast'));
+const browser = mdns.createBrowser(mdns.tcp('googlecast'));
 
-browser.on('serviceUp', function(service) {
+browser.on('serviceUp', service => {
   console.log('found device "%s" at %s:%d', service.name, service.addresses[0], service.port);
   ondeviceup(service.addresses[0]);
   browser.stop();
@@ -43,13 +43,13 @@ browser.start();
 
 function ondeviceup(host) {
 
-  var client = new Client();
+  const client = new Client();
 
-  client.connect(host, function() {
+  client.connect(host, () => {
     console.log('connected, launching app ...');
 
-    client.launch(DefaultMediaReceiver, function(err, player) {
-      var media = {
+    client.launch(DefaultMediaReceiver, (err, player) => {
+      const media = {
 
       	// Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
         contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
@@ -67,43 +67,40 @@ function ondeviceup(host) {
         }        
       };
 
-      player.on('status', function(status) {
+      player.on('status', status => {
         console.log('status broadcast playerState=%s', status.playerState);
       });
 
       console.log('app "%s" launched, loading media %s ...', player.session.displayName, media.contentId);
 
-      player.load(media, { autoplay: true }, function(err, status) {
+      player.load(media, { autoplay: true }, (err, status) => {
         console.log('media loaded playerState=%s', status.playerState);
 
         // Seek to 2 minutes after 15 seconds playing.
-        setTimeout(function() {
-          player.seek(2*60, function(err, status) {
+        setTimeout(() => {
+          player.seek(2*60, (err, status) => {
             //
           });
         }, 15000);
-
       });
-
-    });
-    
+    });    
   });
 
-  client.on('error', function(err) {
+  client.on('error', err => {
     console.log('Error: %s', err.message);
     client.close();
   });
-
 }
 ```
 
-###Other examples
+### Other examples
 
-Check the examples directory.
+Check the `examples` directory.
 
 
 Contributors
 ------------
 
+* [amilajack](https://github.com/amilajack) (Amila Welihinda)
 * [xat](https://github.com/xat) (Simon Kusterer)
 * [angelnu](https://github.com/angelnu) (Angel Nunez Mencias)
