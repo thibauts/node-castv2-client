@@ -1,7 +1,8 @@
+import { Client } from 'castv2';
 import RequestResponseController from './request-response';
 
-class MediaController extends RequestResponseController {
-  constructor(client, sourceId, destinationId) {
+export default class MediaController extends RequestResponseController {
+  constructor(client: Client, sourceId: string, destinationId: string) {
     super(client, sourceId, destinationId, 'urn:x-cast:com.google.cast.media');
     this.currentSession = null;
     const self = this;
@@ -141,9 +142,9 @@ class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueLoad(items, options = []) {
+  queueLoad(items: Object[], options: Object = {}) {
     return new Promise((resolve, reject) => {
-      const data = Object.assign({
+      const data = Object.assign({}, {
         type: 'QUEUE_LOAD',
         repeatMode: 'REPEAT_OFF',
         startIndex: 0,
@@ -166,7 +167,7 @@ class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueInsert(items, options) {
+  queueInsert(items: Object[], options: Object) {
     return new Promise((resolve, reject) => {
       const data = Object.assign({
         type: 'QUEUE_INSERT',
@@ -183,7 +184,7 @@ class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueRemove(itemIds, options) {
+  queueRemove(itemIds: string[], options: Object) {
     return new Promise((resolve, reject) => {
       const data = Object.assign({
         type: 'QUEUE_REMOVE',
@@ -200,7 +201,7 @@ class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueReorder(itemIds, options) {
+  queueReorder(itemIds: string[], options: Object) {
     return new Promise((resolve, reject) => {
       const data = Object.assign({
         type: 'QUEUE_REORDER',
@@ -217,7 +218,7 @@ class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueUpdate(items, options) {
+  queueUpdate(items: Object[], options: Object) {
     return new Promise((resolve, reject) => {
       const data = Object.assign({
         type: 'QUEUE_UPDATE',
@@ -228,5 +229,3 @@ class MediaController extends RequestResponseController {
     });
   }
 }
-
-export default MediaController;

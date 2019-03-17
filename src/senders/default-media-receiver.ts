@@ -1,10 +1,15 @@
+import { Client } from 'castv2';
 import Application from './application';
 import MediaController from '../controllers/media';
 
-class DefaultMediaReceiver extends Application {
-  constructor(client, session) {
+export default class DefaultMediaReceiver extends Application {
+
+  static APP_ID: string = 'CC1AD845';
+
+  APP_ID: string = 'CC1AD845';
+
+  constructor(client: Client, session) {
     super(client, session);
-    this.APP_ID = 'CC1AD845';
 
     /**
      * Media controller
@@ -130,7 +135,3 @@ class DefaultMediaReceiver extends Application {
     return this.media.queueUpdate(items, options);
   }
 }
-
-DefaultMediaReceiver.APP_ID = 'CC1AD845';
-
-export default DefaultMediaReceiver;

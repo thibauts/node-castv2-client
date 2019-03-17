@@ -1,51 +1,34 @@
-"use strict";
+import { Client } from 'castv2';
+import JsonController from './json';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _json = _interopRequireDefault(require("./json"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-class ConnectionController extends _json.default {
-  constructor(client, sourceId, destinationId) {
+export default class ConnectionController extends JsonController {
+  constructor(client: Client, sourceId: string, destinationId: string) {
     super(client, sourceId, destinationId, 'urn:x-cast:com.google.cast.tp.connection');
-
-    const onMessage = data => {
+    const onMessage = (data: { type: string }) => {
       if (data.type === 'CLOSE') this.emit('disconnect');
     };
-
     const onClose = () => {
       this.removeListener('message', onMessage);
     };
-
     this.on('message', onMessage);
     this.once('close', onClose);
   }
+
   /**
    * Connect
    */
-
-
   connect() {
     this.send({
       type: 'CONNECT'
     });
   }
+
   /**
    * Disconnect
    */
-
-
   disconnect() {
     this.send({
       type: 'CLOSE'
     });
   }
-
 }
-
-var _default = ConnectionController;
-exports.default = _default;

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "esnext",
+    "allowJs": false,
+    "outDir": "dist",
+    "outFile": "dist/index.d.ts",
+    "declaration": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "allowUnreachableCode": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/*"],
+  "exclude": ["node_modules"]
+}

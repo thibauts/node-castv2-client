@@ -4,7 +4,7 @@ import ConnectionController from '../controllers/connection';
 import HeartbeatController from '../controllers/heartbeat';
 import ReceiverController from '../controllers/receiver';
 
-class PlatformSender extends Sender {
+export default class PlatformSender extends Sender {
   constructor() {
     super(new Client(), 'sender-0', 'receiver-0');
     /**
@@ -151,7 +151,7 @@ class PlatformSender extends Sender {
    * @param {Object} volume - Volume
    * @returns {Promise}
    */
-  setVolume(volume) {
+  setVolume(volume: Object) {
     return this.receiver.setVolume(volume);
   }
 
@@ -163,5 +163,3 @@ class PlatformSender extends Sender {
     return this.receiver.getVolume();
   }
 }
-
-export default PlatformSender;

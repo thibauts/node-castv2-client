@@ -1,10 +1,11 @@
+import { Client } from 'castv2';
 import RequestResponseController from './request-response';
 
-class ReceiverController extends RequestResponseController {
-  constructor(client, sourceId, destinationId) {
+export default class ReceiverController extends RequestResponseController {
+  constructor(client: Client, sourceId: string, destinationId: string) {
     super(client, sourceId, destinationId, 'urn:x-cast:com.google.cast.receiver');
     const self = this;
-    function onMessage(data, broadcast) {
+    function onMessage(data: { type: string, status: string }, broadcast: undefined | Object) {
       if (!broadcast) return;
       if (data.type === 'RECEIVER_STATUS') self.emit('status', data.status);
     }
@@ -36,7 +37,7 @@ class ReceiverController extends RequestResponseController {
    * @param {String|Array} appId - App ID
    * @returns {Promise}
    */
-  getAppAvailability(appId) {
+  getAppAvailability(appId: string | Array<string>): Promise<string> {
     return new Promise((resolve, reject) => {
       const data = {
         type: 'GET_APP_AVAILABILITY',
@@ -49,10 +50,10 @@ class ReceiverController extends RequestResponseController {
 
   /**
    * Launch an App with its ID
-   * @param {String} appId - App ID
+   * @param appId - App ID
    * @returns {Promise}
    */
-  launch(appId) {
+  launch(appId: string) {
     return new Promise((resolve, reject) => {
       this.request({
         type: 'LAUNCH',
@@ -66,7 +67,7 @@ class ReceiverController extends RequestResponseController {
 
   /**
    * Stop a session with its ID
-   * @param {String} sessionId - Session ID
+   * @param sessionId - Session ID
    * @returns {Promise}
    */
   stop(sessionId) {
@@ -85,7 +86,7 @@ class ReceiverController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  setVolume(options) {
+  setVolume(options: Object) {
     return new Promise((resolve, reject) => {
       const data = {
         type: 'SET_VOLUME',
@@ -100,7 +101,7 @@ class ReceiverController extends RequestResponseController {
    * Get the volume
    * @returns {Promise}
    */
-  getVolume() {
+  getVolume(): Promise<string> {
     return new Promise((resolve, reject) => {
       this.getStatus().then(status => resolve(status.volume)).catch(err => reject(err));
     });
@@ -110,11 +111,9 @@ class ReceiverController extends RequestResponseController {
    * Get the sessions
    * @returns {Promise}
    */
-  getSessions() {
+  getSessions(): Promise<string[]> {
     return new Promise((resolve, reject) => {
       this.getStatus().then(status => resolve(status.applications || [])).catch(err => reject(err));
     });
   }
 }
-
-export default ReceiverController;
