@@ -1,0 +1,18 @@
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-16.04'
+    mac:
+      imageName: 'macos-10.13'
+    windows:
+      imageName: 'windows-2019'
+
+pool:
+  vmImage: $(imageName)
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+
+- script: yarn && yarn test --coverage && yarn codecov -t a82b175e-6537-4248-9729-88cfb54b6924
