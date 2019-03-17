@@ -1,10 +1,11 @@
 castv2-client
 =============
-[![Build Status](https://travis-ci.org/amilajack/castv2-client.svg?branch=master)](https://travis-ci.org/amilajack/castv2-client)
-[![Build status](https://ci.appveyor.com/api/projects/status/at71r1stbghsgcja/branch/master?svg=true)](https://ci.appveyor.com/project/amilajack/castv2-client/branch/master)
-[![NPM version](https://badge.fury.io/js/@amilajack/castv2-client.svg)](http://badge.fury.io/js/@amilajack/castv2-client)
+
+> ## 🛠 Status: In Development
+> castv2-client is currently in development. It's on the fast track to a 1.0 release, so we encourage you to use it and give us your feedback, but there are things that haven't been finalized yet and you can expect some changes.
+
+[![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.castv2-client?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=10&branchName=master)
 [![Dependency Status](https://img.shields.io/david/amilajack/castv2-client.svg)](https://david-dm.org/amilajack/castv2-client)
-[![npm](https://img.shields.io/npm/dm/amilajack/castv2-client.svg)](https://npm-stat.com/charts.html?package=@amilajack/castv2-client) [![Greenkeeper badge](https://badges.greenkeeper.io/amilajack/castv2-client.svg)](https://greenkeeper.io/)
 
 ### A Chromecast client based on the new (CASTV2) protocol
 

@@ -61,5 +61,8 @@
   },
   "eslintConfig": {
     "extends": "bliss"
+  },
+  "renovate": {
+    "extends": ["bliss"]
   }
 }
