@@ -23,21 +23,23 @@ export default class MediaController extends RequestResponseController {
     this.once('close', onClose);
   }
 
-
   /**
    * Get the status
    * @returns {Promise}
    */
   getStatus() {
     return new Promise((resolve, reject) => {
-      this.request({
-        type: 'GET_STATUS'
-      }, (err, response) => {
-        if (err) return reject(err);
-        const status = response.status[0];
-        this.currentSession = status;
-        return resolve(status);
-      });
+      this.request(
+        {
+          type: 'GET_STATUS'
+        },
+        (err, response) => {
+          if (err) return reject(err);
+          const status = response.status[0];
+          this.currentSession = status;
+          return resolve(status);
+        }
+      );
     });
   }
 
@@ -49,20 +51,27 @@ export default class MediaController extends RequestResponseController {
    */
   load(media, options = {}) {
     return new Promise((resolve, reject) => {
-      const data = Object.assign({
-        type: 'LOAD',
-        media,
-        autoplay: false,
-        currentTime: 0,
-        activeTrackIds: [],
-        repeatMode: 'REPEAT_OFF'
-      }, options);
-      this.request(data).then((response) => {
-        if (response.type === 'LOAD_FAILED') return reject(new Error('Load failed'));
-        if (response.type === 'LOAD_CANCELLED') return reject(new Error('Load cancelled'));
-        const status = response.status[0];
-        return resolve(status);
-      }).catch(err => reject(err));
+      const data = Object.assign(
+        {
+          type: 'LOAD',
+          media,
+          autoplay: false,
+          currentTime: 0,
+          activeTrackIds: [],
+          repeatMode: 'REPEAT_OFF'
+        },
+        options
+      );
+      this.request(data)
+        .then(response => {
+          if (response.type === 'LOAD_FAILED')
+            return reject(new Error('Load failed'));
+          if (response.type === 'LOAD_CANCELLED')
+            return reject(new Error('Load cancelled'));
+          const status = response.status[0];
+          return resolve(status);
+        })
+        .catch(err => reject(err));
     });
   }
 
@@ -74,10 +83,12 @@ export default class MediaController extends RequestResponseController {
   sessionRequest(data) {
     return new Promise((resolve, reject) => {
       data.mediaSessionId = this.currentSession.mediaSessionId;
-      this.request(data).then((response) => {
-        const status = response.status[0];
-        return resolve(status);
-      }).catch(err => reject(err));
+      this.request(data)
+        .then(response => {
+          const status = response.status[0];
+          return resolve(status);
+        })
+        .catch(err => reject(err));
     });
   }
 
@@ -89,7 +100,8 @@ export default class MediaController extends RequestResponseController {
     return new Promise((resolve, reject) => {
       this.sessionRequest({
         type: 'PLAY'
-      }).then(response => resolve(response))
+      })
+        .then(response => resolve(response))
         .catch(err => reject(err));
     });
   }
@@ -102,7 +114,8 @@ export default class MediaController extends RequestResponseController {
     return new Promise((resolve, reject) => {
       this.sessionRequest({
         type: 'PAUSE'
-      }).then(response => resolve(response))
+      })
+        .then(response => resolve(response))
         .catch(err => reject(err));
     });
   }
@@ -115,7 +128,8 @@ export default class MediaController extends RequestResponseController {
     return new Promise((resolve, reject) => {
       this.sessionRequest({
         type: 'STOP'
-      }).then(response => resolve(response))
+      })
+        .then(response => resolve(response))
         .catch(err => reject(err));
     });
   }
@@ -130,7 +144,8 @@ export default class MediaController extends RequestResponseController {
       this.sessionRequest({
         type: 'SEEK',
         currentTime
-      }).then(response => resolve(response))
+      })
+        .then(response => resolve(response))
         .catch(err => reject(err));
     });
   }
@@ -144,19 +159,26 @@ export default class MediaController extends RequestResponseController {
    */
   queueLoad(items: Object[], options: Object = {}) {
     return new Promise((resolve, reject) => {
-      const data = Object.assign({}, {
-        type: 'QUEUE_LOAD',
-        repeatMode: 'REPEAT_OFF',
-        startIndex: 0,
-        items
-      }, options);
+      const data = Object.assign(
+        {},
+        {
+          type: 'QUEUE_LOAD',
+          repeatMode: 'REPEAT_OFF',
+          startIndex: 0,
+          items
+        },
+        options
+      );
 
-      this.request(data).then((response) => {
-        if (response.type === 'LOAD_FAILED') return reject(new Error('queueLoad failed'));
-        if (response.type === 'LOAD_CANCELLED') return reject(new Error('queueLoad cancelled'));
-        const status = response.status[0];
-        return resolve(status);
-      })
+      this.request(data)
+        .then(response => {
+          if (response.type === 'LOAD_FAILED')
+            return reject(new Error('queueLoad failed'));
+          if (response.type === 'LOAD_CANCELLED')
+            return reject(new Error('queueLoad cancelled'));
+          const status = response.status[0];
+          return resolve(status);
+        })
         .catch(console.log);
     });
   }
@@ -169,11 +191,15 @@ export default class MediaController extends RequestResponseController {
    */
   queueInsert(items: Object[], options: Object) {
     return new Promise((resolve, reject) => {
-      const data = Object.assign({
-        type: 'QUEUE_INSERT',
-        items
-      }, options);
-      this.sessionRequest(data).then(response => resolve(response))
+      const data = Object.assign(
+        {
+          type: 'QUEUE_INSERT',
+          items
+        },
+        options
+      );
+      this.sessionRequest(data)
+        .then(response => resolve(response))
         .catch(err => reject(err));
     });
   }
@@ -186,11 +212,15 @@ export default class MediaController extends RequestResponseController {
    */
   queueRemove(itemIds: string[], options: Object) {
     return new Promise((resolve, reject) => {
-      const data = Object.assign({
-        type: 'QUEUE_REMOVE',
-        itemIds
-      }, options);
-      this.sessionRequest(data).then(response => resolve(response))
+      const data = Object.assign(
+        {
+          type: 'QUEUE_REMOVE',
+          itemIds
+        },
+        options
+      );
+      this.sessionRequest(data)
+        .then(response => resolve(response))
         .catch(err => reject(err));
     });
   }
@@ -203,11 +233,15 @@ export default class MediaController extends RequestResponseController {
    */
   queueReorder(itemIds: string[], options: Object) {
     return new Promise((resolve, reject) => {
-      const data = Object.assign({
-        type: 'QUEUE_REORDER',
-        itemIds
-      }, options);
-      this.sessionRequest(data).then(response => resolve(response))
+      const data = Object.assign(
+        {
+          type: 'QUEUE_REORDER',
+          itemIds
+        },
+        options
+      );
+      this.sessionRequest(data)
+        .then(response => resolve(response))
         .catch(err => reject(err));
     });
   }
@@ -220,11 +254,15 @@ export default class MediaController extends RequestResponseController {
    */
   queueUpdate(items: Object[], options: Object) {
     return new Promise((resolve, reject) => {
-      const data = Object.assign({
-        type: 'QUEUE_UPDATE',
-        items
-      }, options);
-      this.sessionRequest(data).then(response => resolve(response))
+      const data = Object.assign(
+        {
+          type: 'QUEUE_UPDATE',
+          items
+        },
+        options
+      );
+      this.sessionRequest(data)
+        .then(response => resolve(response))
         .catch(err => reject(err));
     });
   }

@@ -1,7 +1,7 @@
-castv2-client
-=============
+# castv2-client
 
 > ## 🛠 Status: In Development
+>
 > castv2-client is currently in development. It's on the fast track to a 1.0 release, so we encourage you to use it and give us your feedback, but there are things that haven't been finalized yet and you can expect some changes.
 
 [![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.castv2-client?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=10&branchName=master)
@@ -15,21 +15,19 @@ This implementation tries to stay close and true to the protocol. For details ab
 
 For advanced use, like using [subtitles](https://github.com/thibauts/node-castv2-client/wiki/How-to-use-subtitles-with-the-DefaultMediaReceiver-app) with the DefaultMediaReceiver check the [wiki](https://github.com/thibauts/node-castv2-client/wiki).
 
-Installation
-------------
+## Installation
 
-``` bash
+```bash
 $ npm install @amilajack/castv2-client
 ```
 
 On windows, to avoid native modules dependencies, use
 
-``` bash
+```bash
 $ npm install @amilajack/castv2-client --no-optional
 ```
 
-Examples
---------
+## Examples
 
 ### Launching a stream on the device
 
@@ -41,7 +39,12 @@ import mdns from 'mdns';
 const browser = mdns.createBrowser(mdns.tcp('googlecast'));
 
 browser.on('serviceUp', service => {
-  console.log('found device "%s" at %s:%d', service.name, service.addresses[0], service.port);
+  console.log(
+    'found device "%s" at %s:%d',
+    service.name,
+    service.addresses[0],
+    service.port
+  );
   ondeviceup(service.addresses[0]);
   browser.stop();
 });
@@ -49,7 +52,6 @@ browser.on('serviceUp', service => {
 browser.start();
 
 function ondeviceup(host) {
-
   const client = new Client();
 
   client.connect(host, () => {
@@ -57,9 +59,9 @@ function ondeviceup(host) {
 
     client.launch(DefaultMediaReceiver, (err, player) => {
       const media = {
-
-      	// Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
-        contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
+        // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
+        contentId:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
         contentType: 'video/mp4',
         streamType: 'BUFFERED', // or LIVE
 
@@ -67,9 +69,12 @@ function ondeviceup(host) {
         metadata: {
           type: 0,
           metadataType: 0,
-          title: "Big Buck Bunny",
+          title: 'Big Buck Bunny',
           images: [
-            { url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg' }
+            {
+              url:
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg'
+            }
           ]
         }
       };
@@ -78,14 +83,18 @@ function ondeviceup(host) {
         console.log('status broadcast playerState=%s', status.playerState);
       });
 
-      console.log('app "%s" launched, loading media %s ...', player.session.displayName, media.contentId);
+      console.log(
+        'app "%s" launched, loading media %s ...',
+        player.session.displayName,
+        media.contentId
+      );
 
       player.load(media, { autoplay: true }, (err, status) => {
         console.log('media loaded playerState=%s', status.playerState);
 
         // Seek to 2 minutes after 15 seconds playing.
         setTimeout(() => {
-          player.seek(2*60, (err, status) => {
+          player.seek(2 * 60, (err, status) => {
             //
           });
         }, 15000);
@@ -103,11 +112,3 @@ function ondeviceup(host) {
 ### Other examples
 
 Check the `examples` directory.
-
-
-Contributors
-------------
-
-* [amilajack](https://github.com/amilajack) (Amila Welihinda)
-* [xat](https://github.com/xat) (Simon Kusterer)
-* [angelnu](https://github.com/angelnu) (Angel Nunez Mencias)

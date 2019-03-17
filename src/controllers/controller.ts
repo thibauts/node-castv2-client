@@ -5,11 +5,25 @@ import { EventEmitter } from 'events';
 const debug = debugFactory('castv2-client');
 
 export default class Controller extends EventEmitter {
-  constructor(client: Client, sourceId: string, destinationId: string, namespace: string, encoding: string) {
+  constructor(
+    client: Client,
+    sourceId: string,
+    destinationId: string,
+    namespace: string,
+    encoding: string
+  ) {
     super();
-    this.channel = client.createChannel(sourceId, destinationId, namespace, encoding);
+    this.channel = client.createChannel(
+      sourceId,
+      destinationId,
+      namespace,
+      encoding
+    );
     const self = this;
-    function onMessage(data: Record<string, string>, broadcast: Record<string, string>) {
+    function onMessage(
+      data: Record<string, string>,
+      broadcast: Record<string, string>
+    ) {
       self.emit('message', data, broadcast);
     }
     function onClose() {

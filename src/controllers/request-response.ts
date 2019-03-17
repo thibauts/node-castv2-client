@@ -2,15 +2,20 @@ import { Client } from 'castv2';
 import JsonController from './json';
 
 interface Response {
-  requestId: number,
-  type: string,
-  reason: string
+  requestId: number;
+  type: string;
+  reason: string;
 }
 
 export default class RequestResponseController extends JsonController {
   public lastRequestId: number;
 
-  constructor(client: Client, sourceId: string, destinationId: string, namespace: string) {
+  constructor(
+    client: Client,
+    sourceId: string,
+    destinationId: string,
+    namespace: string
+  ) {
     super(client, sourceId, destinationId, namespace);
     this.lastRequestId = 0;
   }

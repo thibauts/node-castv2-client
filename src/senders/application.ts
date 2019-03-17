@@ -7,7 +7,6 @@ function randomSenderId(): string {
 }
 
 export default class Application extends Sender {
-
   static APP_ID = 'CC1AD845';
 
   public constructor(client: Client, session) {

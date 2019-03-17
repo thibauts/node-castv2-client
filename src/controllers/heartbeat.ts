@@ -9,7 +9,12 @@ const TIMEOUT_FACTOR = 3; // timeouts after 3 intervals
 
 export default class HeartbeatController extends JsonController {
   constructor(client: Client, sourceId: string, destinationId: string) {
-    super(client, sourceId, destinationId, 'urn:x-cast:com.google.cast.tp.heartbeat');
+    super(
+      client,
+      sourceId,
+      destinationId,
+      'urn:x-cast:com.google.cast.tp.heartbeat'
+    );
     this.pingTimer = null;
     this.timeout = null;
     this.intervalValue = DEFAULT_INTERVAL;

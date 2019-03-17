@@ -3,9 +3,17 @@ import RequestResponseController from './request-response';
 
 export default class ReceiverController extends RequestResponseController {
   constructor(client: Client, sourceId: string, destinationId: string) {
-    super(client, sourceId, destinationId, 'urn:x-cast:com.google.cast.receiver');
+    super(
+      client,
+      sourceId,
+      destinationId,
+      'urn:x-cast:com.google.cast.receiver'
+    );
     const self = this;
-    function onMessage(data: { type: string, status: string }, broadcast: undefined | Object) {
+    function onMessage(
+      data: { type: string; status: string },
+      broadcast: undefined | Object
+    ) {
       if (!broadcast) return;
       if (data.type === 'RECEIVER_STATUS') self.emit('status', data.status);
     }
@@ -18,7 +26,6 @@ export default class ReceiverController extends RequestResponseController {
     this.once('close', onClose);
   }
 
-
   /**
    * Get the status
    * @returns {Promise}
@@ -27,7 +34,8 @@ export default class ReceiverController extends RequestResponseController {
     return new Promise((resolve, reject) => {
       this.request({
         type: 'GET_STATUS'
-      }).then(response => resolve(response.status))
+      })
+        .then(response => resolve(response.status))
         .catch(err => reject(err));
     });
   }
@@ -43,7 +51,8 @@ export default class ReceiverController extends RequestResponseController {
         type: 'GET_APP_AVAILABILITY',
         appId: Array.isArray(appId) ? appId : [appId]
       };
-      this.request(data).then(response => resolve(response.availability))
+      this.request(data)
+        .then(response => resolve(response.availability))
         .catch(err => reject(err));
     });
   }
@@ -58,10 +67,15 @@ export default class ReceiverController extends RequestResponseController {
       this.request({
         type: 'LAUNCH',
         appId
-      }).then((response) => {
-        if (response.type === 'LAUNCH_ERROR') return reject(new Error(`Launch failed. Reason: ${response.reason}`));
-        return resolve(response.status.applications || []);
-      }).catch(err => reject(err));
+      })
+        .then(response => {
+          if (response.type === 'LAUNCH_ERROR')
+            return reject(
+              new Error(`Launch failed. Reason: ${response.reason}`)
+            );
+          return resolve(response.status.applications || []);
+        })
+        .catch(err => reject(err));
     });
   }
 
@@ -76,7 +90,8 @@ export default class ReceiverController extends RequestResponseController {
         type: 'STOP',
         sessionId
       };
-      this.request(data).then(response => resolve(response.status.applications || []))
+      this.request(data)
+        .then(response => resolve(response.status.applications || []))
         .catch(err => reject(err));
     });
   }
@@ -92,7 +107,8 @@ export default class ReceiverController extends RequestResponseController {
         type: 'SET_VOLUME',
         volume: options
       };
-      this.request(data).then(response => resolve(response.status.volume || []))
+      this.request(data)
+        .then(response => resolve(response.status.volume || []))
         .catch(err => reject(err));
     });
   }
@@ -103,7 +119,9 @@ export default class ReceiverController extends RequestResponseController {
    */
   getVolume(): Promise<string> {
     return new Promise((resolve, reject) => {
-      this.getStatus().then(status => resolve(status.volume)).catch(err => reject(err));
+      this.getStatus()
+        .then(status => resolve(status.volume))
+        .catch(err => reject(err));
     });
   }
 
@@ -113,7 +131,9 @@ export default class ReceiverController extends RequestResponseController {
    */
   getSessions(): Promise<string[]> {
     return new Promise((resolve, reject) => {
-      this.getStatus().then(status => resolve(status.applications || [])).catch(err => reject(err));
+      this.getStatus()
+        .then(status => resolve(status.applications || []))
+        .catch(err => reject(err));
     });
   }
 }

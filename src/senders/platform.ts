@@ -33,8 +33,8 @@ export default class PlatformSender extends Sender {
    */
   connect(options) {
     const self = this;
-    return new Promise((resolve) => {
-      this.client.on('error', (err) => {
+    return new Promise(resolve => {
+      this.client.on('error', err => {
         this.emit('error', err);
       });
 
@@ -98,12 +98,15 @@ export default class PlatformSender extends Sender {
    */
   getAppAvailability(appId) {
     return new Promise((resolve, reject) => {
-      this.receiver.getAppAvailability(appId).then((availability) => {
-        for (key in availability) {
-          availability[ky] = (availability[key] === 'APP_AVAILABLE');
-        }
-        resolve(availability);
-      }).catch(err => reject(err));
+      this.receiver
+        .getAppAvailability(appId)
+        .then(availability => {
+          for (key in availability) {
+            availability[ky] = availability[key] === 'APP_AVAILABLE';
+          }
+          resolve(availability);
+        })
+        .catch(err => reject(err));
     });
   }
 
@@ -114,7 +117,7 @@ export default class PlatformSender extends Sender {
    * @returns {Promise}
    */
   join(session, application) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       process.nextTick(() => resolve(new application(this.client, session)));
     });
   }
@@ -126,12 +129,18 @@ export default class PlatformSender extends Sender {
    */
   launch(application) {
     return new Promise((resolve, reject) => {
-      this.receiver.launch(application.APP_ID).then((sessions) => {
-        const filtered = sessions.filter(session => session.appId === application.APP_ID);
-        const session = filtered.shift();
-        return this.join(session, application).then(response => resolve(response))
-          .catch(err => reject(err));
-      }).catch(err => reject(err));
+      this.receiver
+        .launch(application.APP_ID)
+        .then(sessions => {
+          const filtered = sessions.filter(
+            session => session.appId === application.APP_ID
+          );
+          const session = filtered.shift();
+          return this.join(session, application)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+        })
+        .catch(err => reject(err));
     });
   }
 

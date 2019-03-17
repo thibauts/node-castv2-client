@@ -3,7 +3,6 @@ import Application from './application';
 import MediaController from '../controllers/media';
 
 export default class DefaultMediaReceiver extends Application {
-
   static APP_ID: string = 'CC1AD845';
 
   APP_ID: string = 'CC1AD845';
