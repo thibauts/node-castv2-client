@@ -1,0 +1,14 @@
+{
+  "mode": "file",
+  "out": "out",
+  "exclude": "test",
+  "theme": "minimal",
+  "excludePrivate": true,
+  "ignoreCompilerErrors": true,
+  "listInvalidSymbolLinks": true,
+  "target": "ES6",
+  "moduleResolution": "node",
+  "preserveConstEnums": "true",
+  "module": "commonjs",
+  "readme": "none"
+}
