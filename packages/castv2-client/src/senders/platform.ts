@@ -160,7 +160,7 @@ export default class PlatformSender extends Sender {
    * @param {Object} volume - Volume
    * @returns {Promise}
    */
-  setVolume(volume: Object) {
+  setVolume(volume: Record<string, any>) {
     return this.receiver.setVolume(volume);
   }
 

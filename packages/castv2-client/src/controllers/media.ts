@@ -157,7 +157,7 @@ export default class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueLoad(items: Object[], options: Object = {}) {
+  queueLoad(items: Record<string, any>[], options: Record<string, any> = {}) {
     return new Promise((resolve, reject) => {
       const data = Object.assign(
         {},
@@ -189,7 +189,7 @@ export default class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueInsert(items: Object[], options: Object) {
+  queueInsert(items: Record<string, any>[], options: Record<string, any>) {
     return new Promise((resolve, reject) => {
       const data = Object.assign(
         {
@@ -210,7 +210,7 @@ export default class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueRemove(itemIds: string[], options: Object) {
+  queueRemove(itemIds: string[], options: Record<string, any>) {
     return new Promise((resolve, reject) => {
       const data = Object.assign(
         {
@@ -231,7 +231,7 @@ export default class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueReorder(itemIds: string[], options: Object) {
+  queueReorder(itemIds: string[], options: Record<string, any>) {
     return new Promise((resolve, reject) => {
       const data = Object.assign(
         {
@@ -252,7 +252,7 @@ export default class MediaController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueUpdate(items: Object[], options: Object) {
+  queueUpdate(items: Record<string, any>[], options: Record<string, any>) {
     return new Promise((resolve, reject) => {
       const data = Object.assign(
         {

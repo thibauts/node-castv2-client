@@ -12,7 +12,7 @@ export default class ReceiverController extends RequestResponseController {
     const self = this;
     function onMessage(
       data: { type: string; status: string },
-      broadcast: undefined | Object
+      broadcast: undefined | Record<string, any>
     ) {
       if (!broadcast) return;
       if (data.type === 'RECEIVER_STATUS') self.emit('status', data.status);
@@ -45,7 +45,7 @@ export default class ReceiverController extends RequestResponseController {
    * @param {String|Array} appId - App ID
    * @returns {Promise}
    */
-  getAppAvailability(appId: string | Array<string>): Promise<string> {
+  getAppAvailability(appId: string | string[]): Promise<string> {
     return new Promise((resolve, reject) => {
       const data = {
         type: 'GET_APP_AVAILABILITY',
@@ -101,7 +101,7 @@ export default class ReceiverController extends RequestResponseController {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  setVolume(options: Object) {
+  setVolume(options: Record<string, any>) {
     return new Promise((resolve, reject) => {
       const data = {
         type: 'SET_VOLUME',

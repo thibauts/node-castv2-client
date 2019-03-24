@@ -1,0 +1,239 @@
+<html>
+<head>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/components/container.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/components/grid.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/components/button.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/components/step.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/components/message.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/components/icon.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="ui stackable grid">
+    <div class="two wide column"></div>
+    <div class="twelve wide column">
+        <h1>Setup Google Assistant</h1>
+        <script>var tokenSuccess = false;</script>
+        <div class="ui ordered fluid steps">
+            <a class="step" href="/lib/assistant/setup/1" id="step1">
+                <div class="content">
+                    <div class="title">Sign up</div>
+                    <div class="description">Get API ID and secret</div>
+                </div>
+            </a>
+
+            <a class="step" href="/lib/assistant/setup/2" id="step2">
+                <div class="content">
+                    <div class="title">Setup</div>
+                    <div class="description">Client ID and secret</div>
+                </div>
+            </a>
+
+            <a class="step" href="/lib/assistant/setup/3" id="step3">
+                <div class="content">
+                    <div class="title">Authorize</div>
+                    <div class="description">Save your authorization code</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- show error messages -->
+        <div id="message-area"></div>
+        <script type="application/javascript">
+            function showMessage(type, title, message) {
+                $('#message-area').append(getMesaage(type, title, message));
+            }
+            function getMesaage(type, title, message) {
+                return `<div class="ui ${type} message"> <i class="close icon"></i> <div class="header">${title}</div> <p>${message}</p> </div>`;
+            }
+        </script>
+
+        <!-- step1 -->
+        <h2>1. Sign up for a Developer Project</h2>
+        <p>You will need a Client ID and Client secret. <strong>Make sure to select the "Other" application type
+            when creating an oAuth Client ID.</strong></p>
+        <p>
+            <a href="https://developers.google.com/assistant/sdk/guides/service/python/embed/config-dev-project-and-account"
+               target="_blank" class="ui button">Follow this guide</a></p>
+
+        <!-- step2 -->
+        <h2>2. Setup your Client ID and Client secret</h2>
+        <div class="ui form">
+            <div class="two fields">
+                <div class="field">
+                    <label>Client ID</label>
+                    <input id="client-id" placeholder="Client ID" type="text">
+                </div>
+                <div class="field">
+                    <label>Client secret</label>
+                    <input type="text" id="client-secret" placeholder="Client secret">
+                </div>
+            </div>
+        </div>
+        <button style="float: right;" class="ui right labeled icon primary button" id="save-btn-client">
+            <i class="save icon"></i>
+            <div>Save</div>
+        </button>
+        <a style="float: right; display: none;" class="ui right labeled icon green button" id="next-btn" href="/lib/assistant/setup/2">
+            <i class="arrow right icon"></i>
+            <div>Next</div>
+        </a>
+        <script>$("#save-btn-client").click(function () {
+            $.ajax({
+                method: "PUT",
+                url: "/config",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ assistant: { id: $("#client-id")[0].value, secret: $("#client-secret")[0].value } })
+            }).always(function () {
+                console.log("always");
+                $("#save-btn-client").removeClass("right labeled icon").addClass("loading");
+            }).done(function (e) {
+                console.log("done");
+                markButtons({id:true,secret:true});
+            }).fail(function (e) {
+                console.log("fail");
+                let s = "No error message provided.";
+                e && e.responseJSON && (s = e.responseJSON.error);
+                showMessage('negative', 'An error has occurred', e);
+                $("#save-btn-client").removeClass("loading primary green").addClass("right labeled icon red");
+                $("#save-btn-client > div").text("Error"), $("#save-btn-client > i").removeClass("check save").addClass("times");
+            });
+        });</script>
+
+        <!-- step3 -->
+        <h2>3. Authorize and save</h2>
+        <p>Click the button below to authorize cast-web-api with your Google Account.<p>
+        <a href="#" target="_blank" class="ui button disabled" id="auth-btn">Authorize</a>
+        <p>Paste the oAuth code you copied before, press save and wait for the confirmation.</p>
+        <div class="ui form">
+            <div class="field"><label>oAuth code</label><input type="text" placeholder="Code" id="token"></div>
+        </div>
+        <br>
+        <button style="float: right;" class="ui right labeled icon primary button" id="save-btn-code"><i
+                class="save icon"></i>
+            <div>Save</div>
+        </button>
+        <script>
+            $("#save-btn-code").click(function () {
+                if (!tokenSuccess) {
+                    $.ajax({
+                        method: "PUT",
+                        url: "/config",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({ assistant: { token: $("#token")[0].value } })
+                    })
+                    .always(function () {
+                        $("#save-btn-code").removeClass("right labeled icon").addClass("loading");
+                    }).done(function (e) { //TODO: add more info url
+                        showMessage('positive','Done!',`You are all set. Now you can select the cast-web-api device in your Smartthings app as a device for reading out messages. <strong>Remember: only the speech synthesis capability (e.g. speak) is supported <a href="#">more info</a>.</strong>`);
+                        tokenSuccess = true;
+                        markButtons({token: true});
+                    }).fail(function (e) {
+                        let s = "No error message provided.";
+                        e && e.responseJSON && (s = e.responseJSON.error);
+                        showMessage('negative', 'An error has occurred', s);
+                        $("#save-btn-code").removeClass("loading primary green").addClass("right labeled icon red");
+                        $("#save-btn-code > div").text("Error"), $("#save-btn-code > i").removeClass("check save").addClass("times");
+                    });
+                }
+        });</script>
+    </div>
+    </div>
+    <script>
+        showMessage('warning', 'Disclaimer', 'This feature is experimental. It requires a dedicated setup and might not work as expected. The Google Assistant broadcast feature might not work all the time or on all of your devices. These issues are beyond my control!');
+        checkConfig();
+
+        $('.message .close')
+            .on('click', function() {
+                $(this)
+                    .closest('.message')
+                    .transition('fade')
+                ;
+            })
+        ;
+
+        function checkConfig() {
+            $.ajax("/config")
+                .done(function (response) {
+                    if (response.assistant) {
+                        markSteps(response.assistant);
+                        markButtons(response.assistant);
+                    }
+                })
+                .fail(function (e) {
+                    let s = "No error message provided.";
+                    e && e.responseJSON && (s = e.responseJSON.error)
+                    showMessage('negative', 'An error has occurred', e);
+                });
+        }
+
+        function markSteps(config) {
+            if (config.id && config.secret) $('#step1, #step2').addClass("completed");
+            else $('#step1, #step2').removeClass("completed");
+
+            if (config.token) $('#step3').addClass("completed");
+            else $('#step3').removeClass("completed");
+        }
+
+        function markButtons(config) {
+            if (config.hasOwnProperty('id') || config.hasOwnProperty('secret')) {
+                if (config.id && config.secret) {
+                    $("#save-btn-client").removeClass("loading primary left red").addClass("right labeled icon green");
+                    $("#save-btn-client > div").text("Done");
+                    $("#save-btn-client > i").removeClass("save times").addClass("check");
+                    getTokenUrl();
+                } else {
+                    $("#save-btn-client").removeClass("loading red green left").addClass("right labeled icon primary");
+                    $("#save-btn-client > div").text("Save");
+                    $("#save-btn-client > i").removeClass("check times").addClass("save");
+                    $("#auth-btn").removeClass("loading").addClass("disabled").attr("href", "#");
+                }
+            }
+
+            if (config.hasOwnProperty('token')) {
+                if (config.token) {
+                    $("#save-btn-code").removeClass("loading primary left red").addClass("right labeled icon green");
+                    $("#save-btn-code > div").text("Done");
+                    $("#save-btn-code > i").removeClass("save times").addClass("check");
+                } else {
+                    $("#save-btn-code").removeClass("loading primary green left red").addClass("right labeled icon primary");
+                    $("#save-btn-code > div").text("Save");
+                    $("#save-btn-code > i").removeClass("check times").addClass("save");
+                }
+            }
+        }
+
+        function getTokenUrl() {
+            $.ajax("/config/assistant/tokenUrl/")
+                .always(function () {
+                    $("#auth-btn").addClass("loading");
+                }).done(function (r) {
+                console.log(r.url)
+                $("#auth-btn").removeClass("loading disabled").attr("href", r.url);
+            }).fail(function (r) {
+                let e = "No error message provided.";
+                r && r.responseJSON && (e = r.responseJSON.error);
+                showMessage('negative', 'An error has occurred', e);
+                $("#auth-btn").removeClass("loading").addClass("red disabled");
+                $("#auth-btn > div").text("Error getting auth url");
+            });
+        }
+    </script>
+</body>
+</html>
+
+<!--var step1 = pre + step1Disclaimer + getSteps(1) + step1Content + step1JS + post;-->
+<!--var step2 = pre + getSteps(2) + step2Content + step2JS + post;-->
+<!--var step3 = pre + getSteps(3) + step3Content + step3JS + post;-->
+<!--var mainContainerEnd = '</div><div class="two wide column"></div>';-->
+
+<!--<script>$(".message .close").on("click", function () {-->
+    <!--$(this).closest(".message").transition("fade");-->
+<!--});</script>-->
+<!--<script>$.ajax("/assistant/setup/status/").done(function (e) {-->
+    <!--e.setup && (e.setup.id && e.setup.secret && $(".ui.ordered.fluid.steps>a").eq(0).addClass("completed"), e.setup.token && ($(".ui.ordered.fluid.steps>a").eq(1).addClass("completed"), $(".ui.ordered.fluid.steps>a").eq(2).addClass("completed")))-->
+<!--});</script>-->

@@ -1,0 +1,1253 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "HTTP API for Google Cast enabled devices. This API is only intended to be used on your local network not for hosting on the public internet.",
+    "version": "1.1.0",
+    "title": "cast-web-api",
+    "license": {
+      "name": "GNU General Public License v3.0",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+    }
+  },
+  "tags": [
+    {
+      "name": "device",
+      "description": "All of your Google Cast enabled devices"
+    },
+    {
+      "name": "config",
+      "description": "Info about the cast-web-api installation"
+    },
+    {
+      "name": "assistant",
+      "description": "Access to the Google Assistant",
+      "externalDocs": {
+        "description": "Find out more about the Google Assistant API",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "callback",
+      "description": "Sends HTTP callbacks on CastDevice update"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/device": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "List all available devices",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Device"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/connected": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "List all connected devices",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Device"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/disconnected": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "List all disconnected devices",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Device"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Get device by ID",
+        "description": "As soon as you access a cast device by id directly, it'll be connected",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/muted/{target}": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Mute or unmute a device",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "target",
+            "in": "path",
+            "description": "Mute or unmute the device",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/volume/{targetVolume}": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Mute or unmute a device",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "targetVolume",
+            "in": "path",
+            "description": "New volume (0-100) you want to set on the device.",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/play": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Play media that is loaded on the device",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/pause": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Pause media that is playing on the device",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/stop": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Stop media that is loaded on the device",
+        "description": "It closes the media session and application running on the device",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/seek/{seconds}": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Seeks playback to the seconds specified",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "targetVolume",
+            "in": "path",
+            "description": "Seconds you want to set the current media playback to.",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/image": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Proxies the loaded media image",
+        "description": "Proxies the image from the device's image url. Useful if your application can only access local content",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/playMedia": {
+      "post": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Plays custom media on the device",
+        "description": "Plays custom DRM free media. It uses Google's default media receiver. If you don't know what this is please read the documentation first, it is linked above and below. Remember: always check device compatibility (formats, screen available) before casting your media to a device!",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "mediaArray",
+            "description": "Array of mediaElements to play",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Media"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/playMediaGet/{mediaArray}": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Plays custom media on the device",
+        "description": "Plays custom DRM free media. It uses Google's default media receiver. If you don't know what this is please read the documentation first, it is linked above and below. Remember: always check device compatibility (formats, screen available) before casting your media to a device!",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mediaArray",
+            "in": "path",
+            "description": "Array of mediaElements to play",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/device/{id}/subscribe/{callbackAddress}": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Send status updates to an HTTP endpoint",
+        "description": "Creates a subscription for the selected device. When the device's status object changes (i.e. volume/playback changes) the new status update is send to the callback address. For now it only supports http callbacks and only one per device. If you call this path again for the same device, with a different callback address, the old callback will be overwritten.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "callbackAddress",
+            "in": "path",
+            "description": "Address (host:port) of the listening endpoint. String without 'http://'!",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/unsubscribe": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Removes every callback from a device",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/device/{id}/remove": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Disconnects the selected device",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the cast device to use",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/config": {
+      "get": {
+        "tags": [
+          "config"
+        ],
+        "summary": "Get the current configuration",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Config"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "config"
+        ],
+        "summary": "Update the configuration",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Config object, only with the properties that need to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Config"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Config"
+            }
+          },
+          "500": {
+            "description": "Error saving a property"
+          }
+        }
+      }
+    },
+    "/config/assistant/tokenUrl": {
+      "get": {
+        "tags": [
+          "config"
+        ],
+        "summary": "Get the Google account login URL",
+        "description": "Required for the user to login, grant permissions and generate a oAuth token.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "repsonse": {
+                  "type": "string",
+                  "default": "ok"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "ClientID/Secret error",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/assistant": {
+      "get": {
+        "tags": [
+          "assistant"
+        ],
+        "summary": "Overview of Google Assistant status",
+        "description": "Info on whether an Assistant object has been created and the Assistant is ready.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "assistant": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "ready": {
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assistant/broadcast": {
+      "post": {
+        "tags": [
+          "assistant"
+        ],
+        "summary": "Broadcast a message through the Google Assistant",
+        "description": "Message will be read out a loud by all Google Assistant devices on the local network.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Message object, that should be broadcast",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Assistant error",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/assistant/command": {
+      "post": {
+        "tags": [
+          "assistant"
+        ],
+        "summary": "Broadcast a message through the Google Assistant",
+        "description": "Message will be read out a loud by all Google Assistant devices on the local network.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Message object, that should be broadcast",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Assistant error",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    },
+    "/assistant/setup": {
+      "get": {
+        "tags": [
+          "assistant"
+        ],
+        "summary": "Visual HTML guide that guides the user through install",
+        "description": "For use in browsers. Calls all documented /config endpoints and reads/sets assistant values.",
+        "produces": [
+          "text/html"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/callback": {
+      "get": {
+        "tags": [
+          "callback"
+        ],
+        "summary": "List all registered callbacks",
+        "description": "Sends a http package to a http url as soon as a device status or link changes.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Callback"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "callback"
+        ],
+        "summary": "Create a new callback",
+        "description": "Create a new callback, identified by its url. If a callback with the same url already exists, it will be overwritten.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Callback object, that should be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Callback"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "repsonse": {
+                  "type": "string",
+                  "default": "ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "callback"
+        ],
+        "summary": "Update an existing callback",
+        "description": "Update an existing callback, identified by its url. Only the settings will be changed.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Callback object, only with the properties that need to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Callback"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "repsonse": {
+                  "type": "string",
+                  "default": "ok"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "callback"
+        ],
+        "summary": "Delete an existing callback",
+        "description": "Delete an existing callback, identified by its url.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Callback object, with id that should be deleted",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Callback"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "repsonse": {
+                  "type": "string",
+                  "default": "ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/callback/{url}": {
+      "get": {
+        "tags": [
+          "callback"
+        ],
+        "summary": "Get a callback object by url",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "path",
+            "description": "Callback url",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Callback"
+            }
+          },
+          "404": {
+            "description": "Callback not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Device": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Google Cast device ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Friendly name of the Google Cast device"
+        },
+        "connection": {
+          "type": "string",
+          "description": "Connection status",
+          "enum": [
+            "connected",
+            "connecting",
+            "disconnected"
+          ]
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "status": {
+          "type": "object",
+          "description": "Status of the Cast device",
+          "properties": {
+            "volume": {
+              "type": "integer"
+            },
+            "muted": {
+              "type": "boolean"
+            },
+            "application": {
+              "type": "string",
+              "description": "The application running on the Cast device"
+            },
+            "status": {
+              "type": "string",
+              "description": "Media playback status",
+              "enum": [
+                "PLAYING",
+                "PAUSED",
+                "IDLE",
+                "BUFFERING"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string",
+              "description": "HTTP url to the media image"
+            },
+            "groupPlayback": {
+              "type": "string",
+              "description": "If the device is member of a group and there's a group playback in progress, the group id will be here",
+              "default": false
+            }
+          }
+        },
+        "groups": {
+          "type": "array",
+          "description": "Google Cast audio groups this device is member of",
+          "items": {
+            "type": "string",
+            "description": "Cast device IDs"
+          }
+        },
+        "members": {
+          "type": "array",
+          "description": "Members of this Google Cast audio group",
+          "items": {
+            "type": "string",
+            "description": "Cast device IDs"
+          }
+        }
+      }
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "type": "string",
+          "description": "Indicates if the command completed successfully",
+          "enum": [
+            "ok",
+            "error"
+          ]
+        },
+        "error": {
+          "type": "string",
+          "description": "Error description"
+        }
+      }
+    },
+    "Media": {
+      "type": "object",
+      "description": "https://developers.google.com/cast/docs/receiver_apps#default",
+      "properties": {
+        "mediaTitle": {
+          "type": "string",
+          "description": "Descriptive title of the content"
+        },
+        "mediaSubtitle": {
+          "type": "string",
+          "description": "Descriptive subtitle of the content"
+        },
+        "mediaType": {
+          "type": "string",
+          "description": "https://developers.google.com/cast/docs/media#media-type-strings"
+        },
+        "mediaUrl": {
+          "type": "string",
+          "description": "HTTP(s) to your content"
+        },
+        "mediaStreamType": {
+          "type": "string",
+          "description": "https://developers.google.com/cast/docs/reference/messages#MediaInformation"
+        },
+        "mediaImageUrl": {
+          "type": "string",
+          "description": "https://developers.google.com/cast/docs/reference/messages#Image"
+        }
+      }
+    },
+    "Callback": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "HTTP url to which packages will be send"
+        },
+        "settings": {
+          "type": "object",
+          "description": "To be detailed",
+          "properties": {
+
+          }
+        }
+      }
+    },
+    "Config": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "object",
+          "properties": {
+            "debug": {
+              "description": "Toggles debugging log messages",
+              "type": "boolean"
+            },
+            "logLevel": {
+              "description": "Toggles log message level",
+              "type": "object",
+              "properties": {
+                "info": {
+                  "type": "boolean"
+                },
+                "error": {
+                  "type": "boolean"
+                },
+                "server": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "version": {
+              "description": "cast-web-api version info",
+              "type": "object",
+              "properties": {
+                "this": {
+                  "type": "string"
+                },
+                "latest": {
+                  "description": "Gets latest cast-web-api version from GitHub",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "assistant": {
+          "type": "object",
+          "description": "Will be saved in plain text ./assistant/client_info?tokens.json",
+          "properties": {
+            "id": {
+              "description": "1. Google Assistant SDK Client ID",
+              "type": "boolean"
+            },
+            "secret": {
+              "type": "boolean",
+              "description": "2. Google Assistant SDK Client Secret"
+            },
+            "token": {
+              "type": "boolean",
+              "description": "3. Google account oAuth token"
+            }
+          }
+        },
+        "device": {
+          "type": "object",
+          "description": "Cast device related settings",
+          "properties": {
+            "autoConnect": {
+              "deprecated": true,
+              "description": "Cast devices auto connect on discovery, devices will reconnect regardless on address change",
+              "type": "boolean",
+              "default": true
+            },
+            "reconnectTimeout": {
+              "description": "Cast devices trie to reconnect every x ms if it goes down",
+              "type": "integer",
+              "default": 10000
+            }
+          }
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "Message for the Goggle Assistant",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
